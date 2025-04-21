@@ -4,7 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 const Upload = async (file) => {
 
     const storage = getStorage();
-const storageRef = ref(storage, 'images/rivers.jpg');
+const storageRef = ref(storage, `images/${Date.now() + file.name}`);
 
 const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -28,7 +28,7 @@ uploadTask.on('state_changed',
   () => {
 
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log('File available at', downloadURL);
+      resolve(downloadURL)
     });
   }
 );
