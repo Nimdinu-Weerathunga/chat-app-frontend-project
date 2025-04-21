@@ -1,14 +1,43 @@
 
 import { initializeApp } from "firebase/app";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { getFirestore, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCiCKx6gaW7MgFIIqL7O8Rx4j0kfGNEDqI",
-  authDomain: "chat-app-75-e0c7a.firebaseapp.com",
-  projectId: "chat-app-75-e0c7a",
-  storageBucket: "chat-app-75-e0c7a.firebasestorage.app",
-  messagingSenderId: "791036443952",
-  appId: "1:791036443952:web:242880c503b7af86da1cf5"
+  apiKey: "AIzaSyBIIg-a5ZcvsZWjPxwaSCo-9R-XCQtYJvE",
+  authDomain: "chat-app-404-18c19.firebaseapp.com",
+  projectId: "chat-app-404-18c19",
+  storageBucket: "chat-app-404-18c19.firebasestorage.app",
+  messagingSenderId: "194674979313",
+  appId: "1:194674979313:web:886b964f670648aa779450"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const signup = async (username,email,password) => {
+  try {
+    const res = await createUserWithEmailAndPassword(auth,email,password);
+    const user = res.user;
+    await setDoc(doc(db,"users",user.uid),{
+      id:user.uid,
+      username:username.toLowerCase(),
+      email,
+      name:"",
+      avatar:"",
+      bio:"Hey, There i am using chat app",
+      lastSeen:Date.now()
+    })
+    await setDoc(doc(db,"chats",user.uid),{
+      chatDate:[]
+    })
+  } catch (error) {
+    console.error(error)
+    toast.error(error.code)
+  }
+}
+export {signup}
