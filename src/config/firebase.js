@@ -32,7 +32,7 @@ const signup = async (username,email,password) => {
       lastSeen:Date.now()
     })
     await setDoc(doc(db,"chats",user.uid),{
-      chatDate:[]
+      chatsDate:[]
     })
   } catch (error) {
     console.error(error)
