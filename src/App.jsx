@@ -15,25 +15,23 @@ const App = () => {
   const {loadUserData} = useContext(AppContext)
 
   useEffect(()=>{
-    onAuthStateChanged(auth,  async (user)=> {
-      if (user) {
+    onAuthStateChanged(auth, async(user)=> {
+      if(user){
         navigate('/chat')
+        
         await loadUserData(user.uid)
-      }
-      else {
+      }else{
         navigate('/')
       }
-
     })
   },[])
-
   return (
     <>
     <ToastContainer/>
       <Routes>
-        <Route path='/' element={<Login/>}/>
-        <Route path='/chat' element={<Chat/>}/>
-        <Route path='/profile' element={<ProfileUpdate/>}/>
+        <Route path='/' element={<Login />} />
+        <Route path='/chat' element={<Chat />} />
+        <Route path='/profile' element={<ProfileUpdate />} />
       </Routes>
     </>
   )
